@@ -2,4 +2,4 @@
 
 # Discord Bot Creator - Bot
 
-> Under construction
+> Under construction...
