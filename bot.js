@@ -14,7 +14,7 @@ const DBCBotStorage = require('./storage.json');
 
 /** 
  * DBC bot actions, delimit
- * what the bot can do. 
+ * what the bot can do.
  */
 const DBCBotActions = [
   /** Messages */
@@ -266,10 +266,6 @@ class DBCBot {
   /** Start the DBC Discord bot. */
   constructor() {
     return (async () => {
-      /** 
-       * DBC bot client, Discord client used for 
-       * controling the DBC bot. 
-       */
       this.client = new this.libs.Discord.Client({ ws: {
         intents: this.storage.config.intents
       }});
@@ -393,14 +389,20 @@ class DBCBot {
   }
 
   async verifyFiles() {
-    this.utils.log('info', 'Verifying if your bot is up to date...');
+    this.utils.log(
+      'info', 
+      'Verifying if your bot is up to date...'
+    );
 
     const currentDBCBotPackage = await (await this.libs.fetch(
       'https://raw.githubusercontent.com/discord-bot-creator/bot/master/package.json'
     )).json();
 
     if (this.version !== currentDBCBotPackage.version) {
-      this.utils.log('alert', 'Your bot is not up to date, updating...');
+      this.utils.log(
+        'alert', 
+        'Your bot is not up to date, updating...'
+      );
 
       const currentDBCBotFile = await (await this.libs.fetch(
         'https://raw.githubusercontent.com/discord-bot-creator/bot/master/bot.js'
@@ -416,10 +418,16 @@ class DBCBot {
         currentDBCBotFile
       );
 
-      return this.utils.log('success', 'Bot updated successfully!');
+      return this.utils.log(
+        'success', 
+        'Bot updated successfully!'
+      );
     }
 
-    this.utils.log('success', 'Your bot is up to date!');
+    this.utils.log(
+      'success', 
+      'Your bot is up to date!'
+    );
   }
 
   setupSystems() {
@@ -429,7 +437,6 @@ class DBCBot {
       this.utils.log('success', 'Bot started!');
     });
       
-    /** Prepares commands system. */
     this.client.on('message', message => {
       if (
         !message.content.startsWith(this.storage.config.prefix) ||
@@ -445,17 +452,16 @@ class DBCBot {
       const command = this.storage.commands
         .find(c => c.name === commandName) || this.storage.commands
         .find(c => c.aliases.includes(commandName));
-
       if (command) {
-        const variables = new Map();
-        const globalVariables = this.globalVariables;
-
-        const log = this.utils.log;
-      
         const actions = this.actions;
         const action = actions
           .find(a => a.name === command.actions[0].name);
         
+        const log = this.utils.log;
+
+        const variables = new Map();
+        const globalVariables = this.globalVariables;
+
         if (
           action.intents && 
           !this.storage.config.intents.includes(actions.intents)
@@ -519,12 +525,8 @@ class DBCBot {
       }
     });
 
-    /** Prepares events system. */
     for (const event of this.storage.events) {
       this.client.on(event.type, (output0, output1) => {
-        const variables = new Map();
-        const globalVariables = this.globalVariables;
-
         if (event.outputs) {
           let outputIndex = 0;
           for (const output of event.outputs) {
@@ -537,11 +539,14 @@ class DBCBot {
           }
         }
 
-        const log = this.utils.log;
-
         const actions = this.actions;
         const action = actions
           .find(a => a.name === event.actions[0].name);
+        
+        const log = this.utils.log;
+
+        const variables = new Map();
+        const globalVariables = this.globalVariables;
       
         function getField(index, id) {
           const field = event
