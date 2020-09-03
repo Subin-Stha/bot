@@ -1,7 +1,7 @@
 {
   "name": "@discord-bot-creator/bot",
   "description": "Bot template of Discord Bot Creator.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "bot.js",
   "homepage": "https://github.com/discord-bot-creator/bot#readme",
   "license": "GPL-3.0",
