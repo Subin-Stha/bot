@@ -322,7 +322,7 @@ class DBCBot {
       DBCBotStorage.config.intents.push('GUILDS');
       writeFileSync(
         './storage.json', 
-    	JSON.stringify(DBCBotStorage, null, 2)
+    	  JSON.stringify(DBCBotStorage, null, 2)
       );
     }
     if (
