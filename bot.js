@@ -275,7 +275,7 @@ class DBCBot {
 
       try {
         this.utils.log('info', 'Starting bot...');
-        await this.client.login(this.storage.config.token);
+        this.client.login(this.storage.config.token);
       } catch (err) {
         switch (err.code) {
           case 'TOKEN_INVALID':
