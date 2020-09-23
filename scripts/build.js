@@ -18,6 +18,8 @@ async function build() {
   execSync('npx webpack')
   copyFileSync('./build/storage.json', './dist/storage.json')
   copyFileSync('./build/package.json', './dist/package.json')
+  copyFileSync('./LICENSE', './dist/LICENSE')
+  copyFileSync('./README.md', './dist/README.md')
 }
 
 build()
