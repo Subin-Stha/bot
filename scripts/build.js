@@ -11,8 +11,6 @@ async function build() {
   delete buildPackage.scripts.lint
   delete buildPackage.scripts.build
   delete buildPackage.devDependencies
-  delete buildPackage.keywords
-  delete buildPackage.husky
   writeFileSync('./build/package.json', JSON.stringify(buildPackage, null, 2))
 
   execSync('npx webpack')
