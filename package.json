@@ -2,7 +2,7 @@
   "name": "@discord-bot-creator/bot",
   "description": "Bot template of Discord Bot Creator.",
   "version": "1.0.4",
-  "main": "bot.js",
+  "main": "bot",
   "homepage": "https://github.com/discord-bot-creator/bot#readme",
   "license": "GPL-3.0",
   "author": {
@@ -15,14 +15,28 @@
     "url": "https://github.com/discord-bot-creator/bot.git"
   },
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "lint": "eslint index.ts src/**/*.ts scripts/**/*.js --fix && prettier --write index.ts && prettier --write src/**/*.ts && prettier --write scripts/**/*.js",
+    "build": "node scripts/build"
   },
   "engines": {
-    "node": ">=12.x"
+    "node": ">=12"
   },
   "dependencies": {
     "discord.js": "12.3.1",
-    "node-fetch": "2.6.0"
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.11.2",
+    "@types/node-fetch": "^2.5.7",
+    "@types/ws": "^7.2.6",
+    "@typescript-eslint/parser": "^4.2.0",
+    "eslint": "^7.9.0",
+    "husky": "^4.3.0",
+    "prettier": "^2.1.2",
+    "typescript": "^4.0.3",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
   },
   "keywords": [
     "dbc",

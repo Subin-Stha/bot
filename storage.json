@@ -3,9 +3,8 @@
     {
       "name": "dbc",
       "description": "A simple command that say a message.",
-      "aliases": [
-        "discordbotcreator"
-      ],
+      "category": "Others",
+      "aliases": ["discordbotcreator"],
       "actions": [
         {
           "name": "Send Message",
@@ -31,9 +30,6 @@
     "token": "",
     "prefix": "!",
     "caseSensitive": true,
-    "intents": [
-      "GUILDS",
-      "GUILD_MESSAGES"
-    ]
+    "intents": ["GUILDS", "GUILD_MESSAGES"]
   }
 }
