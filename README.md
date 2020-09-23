@@ -12,13 +12,11 @@
   <img src="https://img.shields.io/github/license/cappp/dbm-firebase?style=for-the-badge">
 </a>
 
-> Bot template of Discord Bot Creator.
-
 <br>
 
 ## Instalation
 
-You can simple download the bot in the [releases](https://github.com/discord-bot-creator/bot/releases) or use a Node Package Manager:
+You can download the development version of the bot in the [releases](https://github.com/discord-bot-creator/bot/releases) or use a Node Package Manager to download the production version:
 
 ```bash
 npm i @discord-bot-creator/bot

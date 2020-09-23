@@ -74,7 +74,7 @@ export default class DBCBot {
     }
   }
 
-  async verifyFiles() {
+  async start() {
     this.utils.log('info', 'Checking if your bot is up to date...')
 
     try {
@@ -130,51 +130,46 @@ export default class DBCBot {
           break
       }
     }
-  }
 
-  setupSystems() {
     this.client.on('ready', () => this.utils.log('success', 'Bot started!'))
-
     this.client.on('message', (message) => {
       if (
         !message.content.startsWith(this.storage.config.prefix) ||
         message.author.bot
-      )
-        return
+      ) {
+        const commandArgs = message.content
+          .slice(this.storage.config.prefix.length)
+          .split(/ +/)
+        const commandName = this.storage.config.caseSensitive
+          ? commandArgs.shift().toLowerCase()
+          : commandArgs.shift()
+        const command =
+          this.storage.commands.find((c) => c.name === commandName) ||
+          this.storage.commands.find((c) => c.aliases.includes(commandName))
+        if (command) {
+          const actions = this.actions
+          const action = actions.find((a) => a.name === command.actions[0].name)
 
-      const commandArgs = message.content
-        .slice(this.storage.config.prefix.length)
-        .split(/ +/)
-      const commandName = this.storage.config.caseSensitive
-        ? commandArgs.shift().toLowerCase()
-        : commandArgs.shift()
-      const command =
-        this.storage.commands.find((c) => c.name === commandName) ||
-        this.storage.commands.find((c) => c.aliases.includes(commandName))
-      if (command) {
-        const actions = this.actions
-        const action = actions.find((a) => a.name === command.actions[0].name)
+          const log = this.utils.log
 
-        const log = this.utils.log
+          const variables = new Map<string, any>()
+          const globalVariables = this.globalVariables
 
-        const variables = new Map<string, any>()
-        const globalVariables = this.globalVariables
+          if (
+            action.intents &&
+            !this.storage.config.intents.includes(action.intents)
+          ) {
+            return log(
+              'error',
+              'Your bot config does not have the following intents to use some actions: ' +
+                action.intents.join(', ')
+            )
+          }
 
-        if (
-          action.intents &&
-          !this.storage.config.intents.includes(action.intents)
-        ) {
-          return log(
-            'error',
-            'Your bot config does not have the following intents to use some actions: ' +
-              action.intents.join(', ')
-          )
-        }
-
-        function getField(index: number, id: string) {
-          const field = command.actions[index].fields.find((f) => f.id === id)
-          if (field) {
-            const result = eval(`
+          function getField(index: number, id: string) {
+            const field = command.actions[index].fields.find((f) => f.id === id)
+            if (field) {
+              const result = eval(`
               function variable(name) {
                 return variables.get(name) || 
                 globalVariables.get(name);
@@ -182,39 +177,40 @@ export default class DBCBot {
               const command = message;
               ${'`' + field.value + '`'}
             `)
-            return result
+              return result
+            }
           }
-        }
 
-        function throwActionError(index: number, error: string) {
-          log(
-            'error',
-            `Ocurred on command ${commandName} on action ${index}: ${error}`,
-            true
-          )
-        }
-
-        function goToAction(cache: DBCBotActionCache) {
-          cache.index++
-          if (command.actions[cache.index]) {
-            actions
-              .find((a) => a.name === command.actions[cache.index].name)
-              .run(cache)
+          function throwActionError(index: number, error: string) {
+            log(
+              'error',
+              `Ocurred on command ${commandName} on action ${index}: ${error}`,
+              true
+            )
           }
-        }
 
-        const cache = {
-          client: this.client,
-          message,
-          index: 0,
-          variables,
-          globalVariables,
-          getField,
-          throwActionError,
-          goToAction
-        }
+          function goToAction(cache: DBCBotActionCache) {
+            cache.index++
+            if (command.actions[cache.index]) {
+              actions
+                .find((a) => a.name === command.actions[cache.index].name)
+                .run(cache)
+            }
+          }
 
-        action.run(cache)
+          const cache = {
+            client: this.client,
+            message,
+            index: 0,
+            variables,
+            globalVariables,
+            getField,
+            throwActionError,
+            goToAction
+          }
+
+          action.run(cache)
+        }
       }
     })
 
@@ -285,11 +281,7 @@ export default class DBCBot {
         action.run(cache)
       })
     }
-  }
 
-  async start() {
-    await this.verifyFiles()
-    this.setupSystems()
     this.utils.log('info', 'Starting bot...')
     this.client.login(this.storage.config.token).catch((err) => {
       switch (err.code) {
