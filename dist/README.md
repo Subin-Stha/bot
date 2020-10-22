@@ -16,7 +16,7 @@
 
 ## Instalation
 
-You can download the development version of the bot in the [releases](https://github.com/discord-bot-creator/bot/releases) or use a Node Package Manager to download the production version:
+You can simple download the bot in the releases or use a Node Package Manager:
 
 ```bash
 npm i @discord-bot-creator/bot

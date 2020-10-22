@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-add": "npm run format"
+    "pre-commit": "npm run format"
   }
 }
