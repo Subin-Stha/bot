@@ -17,8 +17,7 @@
   "scripts": {
     "start": "node .",
     "format": "prettier --write ./**/*.{js,ts} && eslint --fix ./**/*.{js,ts}",
-    "build": "node scripts/build",
-    "publish": "npm publish ./dist --access public"
+    "build": "node scripts/build"
   },
   "engines": {
     "node": ">=12"
