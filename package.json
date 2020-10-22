@@ -1,7 +1,7 @@
 {
   "name": "@discord-bot-creator/bot",
   "description": "Bot template of Discord Bot Creator.",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "bot",
   "homepage": "https://github.com/discord-bot-creator/bot#readme",
   "license": "GPL-3.0",
@@ -17,8 +17,7 @@
   "scripts": {
     "start": "node .",
     "format": "prettier --write ./**/*.{js,ts} && eslint --fix ./**/*.{js,ts}",
-    "build": "node scripts/build",
-    "publish": "npm publish ./dist --access public"
+    "build": "node scripts/build"
   },
   "engines": {
     "node": ">=12"
