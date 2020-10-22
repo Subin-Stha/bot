@@ -1,7 +1,7 @@
 {
   "name": "@discord-bot-creator/bot",
   "description": "Bot template of Discord Bot Creator.",
-  "version": "1.0.8",
+  "version": "1.0.7",
   "main": "bot",
   "homepage": "https://github.com/discord-bot-creator/bot#readme",
   "license": "GPL-3.0",
@@ -15,10 +15,7 @@
     "url": "https://github.com/discord-bot-creator/bot.git"
   },
   "scripts": {
-    "start": "node .",
-    "format": "prettier --write ./**/*.{js,ts} && eslint --fix ./**/*.{js,ts}",
-    "build": "node scripts/build",
-    "publish": "npm publish ./dist --access public"
+    "start": "node ."
   },
   "engines": {
     "node": ">=12"
@@ -26,17 +23,5 @@
   "dependencies": {
     "discord.js": "12.3.1",
     "node-fetch": "^2.6.1"
-  },
-  "devDependencies": {
-    "@types/node": "^14.11.2",
-    "@types/node-fetch": "^2.5.7",
-    "@types/ws": "^7.2.6",
-    "@typescript-eslint/parser": "^4.2.0",
-    "eslint": "^7.9.0",
-    "husky": "^4.3.0",
-    "prettier": "^2.1.2",
-    "typescript": "^4.0.3",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12"
   }
 }

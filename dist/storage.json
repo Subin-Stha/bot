@@ -1,0 +1,35 @@
+{
+  "commands": [
+    {
+      "name": "dbc",
+      "description": "A simple command that say a message.",
+      "category": "Others",
+      "aliases": ["discordbotcreator"],
+      "actions": [
+        {
+          "name": "Send Message",
+          "fields": [
+            {
+              "id": "send-to",
+              "value": "command-channel"
+            },
+            {
+              "id": "message",
+              "value": "${command.author}, welcome to Discord Bot Creator!"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "events": [],
+  "config": {
+    "avatar": "https://i.imgur.com/3RzaW3Q.png",
+    "description": "A cool Discord Bot created with DBC :)",
+    "owners": [],
+    "token": "",
+    "prefix": "!",
+    "caseSensitive": true,
+    "intents": ["GUILDS", "GUILD_MESSAGES"]
+  }
+}

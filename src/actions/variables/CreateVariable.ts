@@ -1,19 +1,19 @@
 import { DBCBotAction, DBCBotActionCache } from '../../interfaces'
 
 class CreateVariable implements DBCBotAction {
-  get name() {
+  get name () {
     return 'Create Variable'
   }
 
-  get description() {
+  get description () {
     return 'Create custom variables.'
   }
 
-  get category() {
+  get category () {
     return 'Variables'
   }
 
-  html() {
+  html () {
     return `
       <div>
         <label id="variable-type">Variable Type</label>
@@ -47,7 +47,7 @@ class CreateVariable implements DBCBotAction {
     `
   }
 
-  run(cache: DBCBotActionCache) {
+  run (cache: DBCBotActionCache) {
     const variableType = cache.getField(cache.index, 'variable-type')
     let variableValue = cache.getField(cache.index, 'variable-value')
     const variableStorage = cache.getField(cache.index, 'variable-storage')

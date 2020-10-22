@@ -1,19 +1,19 @@
 import { DBCBotAction, DBCBotActionCache } from '../../../interfaces'
 
 class SendMessage implements DBCBotAction {
-  get name() {
+  get name () {
     return 'Send Message'
   }
 
-  get description() {
+  get description () {
     return 'Send messages to channels, users and bot logs.'
   }
 
-  get category() {
+  get category () {
     return 'Client/Messages'
   }
 
-  html(isCommand: boolean) {
+  html (isCommand: boolean) {
     return `
       <div>
         <div>
@@ -69,7 +69,7 @@ class SendMessage implements DBCBotAction {
     `
   }
 
-  async run(cache: DBCBotActionCache) {
+  async run (cache: DBCBotActionCache) {
     const sendTo = cache.getField(cache.index, 'send-to')
     const variableName = cache.getField(cache.index, 'variable-name')
     const message = cache.getField(cache.index, 'message')
@@ -81,9 +81,6 @@ class SendMessage implements DBCBotAction {
           break
         case 'command-author':
           await cache.message.author.send(message)
-          break
-        case 'bot-logs':
-          console.log(message)
           break
         case 'variable':
           await cache.variables.get(variableName).send(message)
