@@ -1,21 +1,21 @@
 import { DBCBotAction } from '../../interfaces'
 
 class StopActions implements DBCBotAction {
-  get name() {
+  get name () {
     return 'Stop Actions'
   }
 
-  get description() {
+  get description () {
     return 'Stop the actions sequence.'
   }
 
-  get category() {
+  get category () {
     return 'Actions'
   }
 
-  html() {}
+  html () {}
 
-  run() {}
+  run () {}
 }
 
 export default new StopActions()

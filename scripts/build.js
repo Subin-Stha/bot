@@ -1,15 +1,16 @@
 const { execSync } = require('child_process')
 const { rmdirSync, writeFileSync, copyFileSync } = require('fs')
 
-async function build() {
+async function build () {
   execSync('npx tsc')
   rmdirSync('./build/src/interfaces', { recursive: true })
   copyFileSync('./storage.json', './build/storage.json')
   copyFileSync('./package.json', './build/package.json')
 
   const buildPackage = require('../build/package.json')
-  delete buildPackage.scripts.lint
+  delete buildPackage.scripts.format
   delete buildPackage.scripts.build
+  delete buildPackage.scripts.publish
   delete buildPackage.devDependencies
   writeFileSync('./build/package.json', JSON.stringify(buildPackage, null, 2))
 

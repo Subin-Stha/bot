@@ -1,19 +1,19 @@
 import { DBCBotAction, DBCBotActionCache } from '../../interfaces'
 
 class SkipActions implements DBCBotAction {
-  get name() {
+  get name () {
     return 'Skip Actions'
   }
 
-  get description() {
+  get description () {
     return 'Skip a sequence of actions according with the amount.'
   }
 
-  get category() {
+  get category () {
     return 'Actions'
   }
 
-  html() {
+  html () {
     return `
       <div>
         <label id="amount-to-skip">Amount to Skip</label>
@@ -22,7 +22,7 @@ class SkipActions implements DBCBotAction {
     `
   }
 
-  run(cache: DBCBotActionCache) {
+  run (cache: DBCBotActionCache) {
     const amountToSkip = Number(cache.getField(cache.index, 'amount-to-skip'))
     cache.index += amountToSkip
     cache.goToAction(cache)

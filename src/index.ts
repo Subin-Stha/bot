@@ -11,7 +11,7 @@ export default class DBCBot {
   client: Discord.Client
   globalVariables: Map<string, any>
 
-  constructor(storage: DBCBotStorage) {
+  constructor (storage: DBCBotStorage) {
     if (!storage.config.intents) {
       storage.config.intents = []
       storage.config.intents.push('GUILDS')
@@ -36,17 +36,17 @@ export default class DBCBot {
     this.globalVariables = new Map()
   }
 
-  get version() {
+  get version () {
     return JSON.parse(fs.readFileSync('./package.json', 'utf-8')).version
   }
 
-  get actions() {
+  get actions () {
     return actions
   }
 
-  get utils() {
+  get utils () {
     return {
-      log(
+      log (
         type: 'info' | 'success' | 'error' | 'alert',
         message: string,
         exit?: boolean
@@ -74,7 +74,7 @@ export default class DBCBot {
     }
   }
 
-  async start() {
+  async start () {
     this.utils.log('info', 'Checking if your bot is up to date...')
 
     try {
@@ -89,7 +89,7 @@ export default class DBCBot {
         try {
           const currentDBCBotFile = await (
             await fetch(
-              'https://raw.githubusercontent.com/discord-bot-creator/bot/master/bot.js'
+              'https://raw.githubusercontent.com/discord-bot-creator/bot/master/dist/bot.js'
             )
           ).text()
           fs.writeFileSync(
@@ -134,8 +134,8 @@ export default class DBCBot {
     this.client.on('ready', () => this.utils.log('success', 'Bot started!'))
     this.client.on('message', (message) => {
       if (
-        !message.content.startsWith(this.storage.config.prefix) ||
-        message.author.bot
+        message.content.startsWith(this.storage.config.prefix) ||
+        !message.author.bot
       ) {
         const commandArgs = message.content
           .slice(this.storage.config.prefix.length)
@@ -166,7 +166,7 @@ export default class DBCBot {
             )
           }
 
-          function getField(index: number, id: string) {
+          function getField (index: number, id: string) {
             const field = command.actions[index].fields.find((f) => f.id === id)
             if (field) {
               const result = eval(`
@@ -181,7 +181,7 @@ export default class DBCBot {
             }
           }
 
-          function throwActionError(index: number, error: string) {
+          function throwActionError (index: number, error: string) {
             log(
               'error',
               `Ocurred on command ${commandName} on action ${index}: ${error}`,
@@ -189,7 +189,7 @@ export default class DBCBot {
             )
           }
 
-          function goToAction(cache: DBCBotActionCache) {
+          function goToAction (cache: DBCBotActionCache) {
             cache.index++
             if (command.actions[cache.index]) {
               actions
@@ -236,7 +236,7 @@ export default class DBCBot {
 
         const log = this.utils.log
 
-        function getField(index: number, id: string) {
+        function getField (index: number, id: string) {
           const field = event.actions[index].fields.find((f) => f.id === id)
           if (field) {
             const result = eval(`
@@ -251,7 +251,7 @@ export default class DBCBot {
           }
         }
 
-        function throwActionError(index: number, error: string) {
+        function throwActionError (index: number, error: string) {
           log(
             'error',
             `Ocurred on event ${event.name} on action ${index}: ${error}`,
@@ -259,7 +259,7 @@ export default class DBCBot {
           )
         }
 
-        function goToAction(cache: DBCBotActionCache) {
+        function goToAction (cache: DBCBotActionCache) {
           cache.index++
           if (event.actions[cache.index]) {
             actions
