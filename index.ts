@@ -17,4 +17,4 @@ if (
   dbcBot.start()
 }
 
-export default DBCBot
+export default dbcBot
