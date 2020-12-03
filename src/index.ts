@@ -1,10 +1,15 @@
-import Discord from 'discord.js'
-import fs from 'fs'
+/* eslint-disable no-eval */
+
+import * as Discord from 'discord.js'
+import * as fs from 'fs'
+import * as chalk from 'chalk'
+import * as path from 'path'
 import fetch from 'node-fetch'
 
 import { DBCBotStorage, DBCBotActionCache } from './interfaces'
 
 import actions from './actions'
+import * as utils from './utils'
 
 export default class DBCBot {
   storage: DBCBotStorage
@@ -16,15 +21,29 @@ export default class DBCBot {
       storage.config.intents = []
       storage.config.intents.push('GUILDS')
       storage.config.intents.push('GUILD_MESSAGES')
-      fs.writeFileSync('./storage.json', JSON.stringify(storage, null, 2))
+      fs.writeFileSync(
+        './storage.json',
+        JSON.stringify(storage, null, 2),
+        'utf-8'
+      )
     }
+
     if (!storage.config.intents.includes('GUILDS')) {
       storage.config.intents.push('GUILDS')
-      fs.writeFileSync('./storage.json', JSON.stringify(storage, null, 2))
+      fs.writeFileSync(
+        './storage.json',
+        JSON.stringify(storage, null, 2),
+        'utf-8'
+      )
     }
+
     if (!storage.config.intents.includes('GUILD_MESSAGES')) {
       storage.config.intents.push('GUILD_MESSAGES')
-      fs.writeFileSync('./storage.json', JSON.stringify(storage, null, 2))
+      fs.writeFileSync(
+        './storage.json',
+        JSON.stringify(storage, null, 2),
+        'utf-8'
+      )
     }
 
     this.storage = storage
@@ -36,101 +55,84 @@ export default class DBCBot {
     this.globalVariables = new Map()
   }
 
-  get version () {
-    return JSON.parse(fs.readFileSync('./package.json', 'utf-8')).version
-  }
-
   get actions () {
     return actions
   }
 
   get utils () {
-    return {
-      log (
-        type: 'info' | 'success' | 'error' | 'alert',
-        message: string,
-        exit?: boolean
-      ) {
-        const dateNow = new Date()
-        const logDate = `${dateNow.getMonth()}/${dateNow.getDate()}/${dateNow.getFullYear()} - ${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`
+    return utils
+  }
 
-        switch (type) {
-          case 'info':
-            console.log(`[${logDate}] \x1b[36minfo\x1b[0m ${message}`)
-            break
-          case 'success':
-            console.log(`[${logDate}] \x1b[32msuccess\x1b[0m ${message}`)
-            break
-          case 'error':
-            console.error(`[${logDate}] \x1b[31merror\x1b[0m ${message}`)
-            break
-          case 'alert':
-            console.log(`[${logDate}] \x1b[33malert\x1b[0m ${message}`)
-            break
+  get version () {
+    return JSON.parse(fs.readFileSync('./package.json', 'utf-8')).version
+  }
+
+  async checkForUpdates () {
+    if (!fs.existsSync(path.join(__dirname, 'index.ts'))) {
+      this.utils.log('info', 'Checking if your bot is up to date...')
+
+      try {
+        const latestDBCBotPackage = await (
+          await fetch(
+            'https://raw.githubusercontent.com/discord-bot-creator/bot/master/dist/package.json'
+          )
+        ).json()
+        if (this.version !== latestDBCBotPackage.version) {
+          this.utils.log('alert', 'Your bot is not up to date, updating...')
+
+          try {
+            const latestDBCBotFile = await (
+              await fetch(
+                'https://raw.githubusercontent.com/discord-bot-creator/bot/master/dist/bot.js'
+              )
+            ).text()
+            fs.writeFileSync(
+              './package.json',
+              JSON.stringify(latestDBCBotPackage, null, 2),
+              'utf-8'
+            )
+            fs.writeFileSync('./bot.js', latestDBCBotFile, 'utf-8')
+
+            this.utils.log(
+              'success',
+              'Bot updated! Start your bot again.',
+              true
+            )
+          } catch (err) {
+            switch (err.code) {
+              case 'ENOTFOUND':
+                this.utils.log(
+                  'error',
+                  'Not was possible install the update, check your internet connection!',
+                  true
+                )
+                break
+              default:
+                this.utils.log('error', 'Unknown error: ' + err, true)
+                break
+            }
+          }
         }
 
-        if (exit) process.exit(0)
+        this.utils.log('info', 'Your bot is up to date.')
+      } catch (err) {
+        switch (err.code) {
+          case 'ENOTFOUND':
+            this.utils.log(
+              'error',
+              'Not was possible check if your bot is up to date, check your internet connection!',
+              true
+            )
+            break
+          default:
+            this.utils.log('error', 'Unknown error: ' + err, true)
+            break
+        }
       }
     }
   }
 
-  async start () {
-    this.utils.log('info', 'Checking if your bot is up to date...')
-
-    try {
-      const currentDBCBotPackage = await (
-        await fetch(
-          'https://raw.githubusercontent.com/discord-bot-creator/bot/master/package.json'
-        )
-      ).json()
-      if (this.version !== currentDBCBotPackage.version) {
-        this.utils.log('alert', 'Your bot is not up to date, updating...')
-
-        try {
-          const currentDBCBotFile = await (
-            await fetch(
-              'https://raw.githubusercontent.com/discord-bot-creator/bot/master/dist/bot.js'
-            )
-          ).text()
-          fs.writeFileSync(
-            './package.json',
-            JSON.stringify(currentDBCBotPackage, null, 2)
-          )
-          fs.writeFileSync('./bot.js', currentDBCBotFile)
-
-          this.utils.log('success', 'Bot updated! Start your bot again.', true)
-        } catch (err) {
-          switch (err.code) {
-            case 'ENOTFOUND':
-              this.utils.log(
-                'error',
-                'Not was possible install the update, check your internet connection!',
-                true
-              )
-              break
-            default:
-              this.utils.log('error', 'Unknown error: ' + err, true)
-              break
-          }
-        }
-      }
-
-      this.utils.log('info', 'Your bot is up to date.')
-    } catch (err) {
-      switch (err.code) {
-        case 'ENOTFOUND':
-          this.utils.log(
-            'error',
-            'Not was possible check if your bot is up to date, check your internet connection!',
-            true
-          )
-          break
-        default:
-          this.utils.log('error', 'Unknown error: ' + err, true)
-          break
-      }
-    }
-
+  async setupEvents () {
     this.client.on('ready', () => this.utils.log('success', 'Bot started!'))
     this.client.on('message', (message) => {
       if (
@@ -281,6 +283,17 @@ export default class DBCBot {
         action.run(cache)
       })
     }
+  }
+
+  async start () {
+    console.log(
+      `\n  ${chalk.magenta('Discord Bot Creator')} Bot ${chalk.gray(
+        'v' + this.version
+      )}\n__________________________________\n`
+    )
+
+    await this.checkForUpdates()
+    await this.setupEvents()
 
     this.utils.log('info', 'Starting bot...')
     this.client.login(this.storage.config.token).catch((err) => {
