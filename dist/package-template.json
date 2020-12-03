@@ -1,0 +1,27 @@
+{
+  "name": "@discord-bot-creator/bot",
+  "description": "Bot template of Discord Bot Creator.",
+  "version": "1.1.0",
+  "homepage": "https://github.com/discord-bot-creator/bot#readme",
+  "license": "GPL-3.0",
+  "author": {
+    "name": "Discord Bot Creator",
+    "email": "discordbotcreator.contact@gmail.com",
+    "url": "https://discord-bot-creator.github.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/discord-bot-creator/bot.git"
+  },
+  "scripts": {
+    "start": "node ./bot.js"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "discord.js": "^12.3.1",
+    "node-fetch": "^2.6.1"
+  }
+}

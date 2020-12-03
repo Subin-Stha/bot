@@ -1,13 +1,4 @@
-{   
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module"
-  },
-  "rules": {
-    "quotes": ["error", "single"],
-    "semi": ["error", "never"],
-    "space-before-function-paren": ["error", "always"],
-    "arrow-parens": ["error", "always"]
-  }
+{
+  "extends": "standard",
+  "parser": "@typescript-eslint/parser"
 }

@@ -9,12 +9,12 @@ import { readFileSync } from 'fs'
 import DBCBot from './src'
 
 const dbcBot = new DBCBot(JSON.parse(readFileSync('./storage.json', 'utf-8')))
-const dbcBotPackageMain = JSON.parse(readFileSync('./package.json', 'utf-8'))
-  .main
 if (
-  process.mainModule.filename.endsWith(dbcBotPackageMain) ||
-  process.mainModule.filename.endsWith(dbcBotPackageMain + '.js')
-)
+  process.mainModule.filename.endsWith('bot') ||
+  process.mainModule.filename.endsWith('bot.js') ||
+  process.mainModule.filename.endsWith('index.ts')
+) {
   dbcBot.start()
+}
 
-export default dbcBot
+export default DBCBot
