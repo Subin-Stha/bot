@@ -1,4 +1,4 @@
-<img src="https://discord-bot-creator.github.io/img/logo.svg" width="200px" height="200px" align="left">
+-<img src="https://discord-bot-creator.github.io/img/logo.svg" width="180px" height="180px" align="left">
 
 # Discord Bot Creator - Bot
 
