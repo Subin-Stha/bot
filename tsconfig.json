@@ -7,5 +7,5 @@
     "resolveJsonModule": true,
     "outDir": "./build"
   },
-  "files": ["index.ts", "src/index.ts"]
+  "files": ["index.ts"]
 }
