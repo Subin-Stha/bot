@@ -17,7 +17,7 @@
     "start": "node ./bot.js",
     "dev": "ts-node ./index.ts",
     "build": "node ./scripts/build",
-    "test": "eslint ./**/*.{js,ts}",
+    "test": "eslint ./**/*.{js,ts} && npm run build && npm run dev",
     "format": "prettier -w ./**/*.{js,ts,json} && eslint --fix ./**/*.{js,ts}"
   },
   "engines": {
