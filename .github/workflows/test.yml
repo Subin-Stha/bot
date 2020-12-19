@@ -16,7 +16,3 @@ jobs:
       run: npm i
     - name: Run Test
       run: npm test
-    - name: Run Build
-      run: npm run build
-    - name: Run Project
-      run: npm run dev
