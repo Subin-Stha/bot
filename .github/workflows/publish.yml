@@ -29,7 +29,6 @@ jobs:
           release_name: ${{ github.ref }}
           draft: false
           prerelease: false
-      - name: Create Release
       - name: Publish to NPM
         uses: JS-DevTools/npm-publish@v1
         with:
