@@ -17,12 +17,14 @@ async function build () {
   const buildPackage = require('../build/package.json')
   delete buildPackage.scripts.dev
   delete buildPackage.scripts.build
+  delete buildPackage.scripts.test
   delete buildPackage.scripts.format
   delete buildPackage.devDependencies
   writeFileSync(
     './dist/package-template.json',
     JSON.stringify(buildPackage, null, 2)
   )
+  writeFileSync('./dist/package.json', JSON.stringify(buildPackage, null, 2))
 }
 
 build()

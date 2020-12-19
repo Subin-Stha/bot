@@ -292,6 +292,10 @@ export default class DBCBot {
       )}\n__________________________________\n`
     )
 
+    if (process.argv.includes('--test')) {
+      return this.utils.log('success', 'Everything ok.', true)
+    }
+
     await this.checkForUpdates()
     await this.setupEvents()
 
