@@ -1,0 +1,22 @@
+name: Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set Up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14x
+    - name: Set Up Dependencies
+      run: npm i
+    - name: Run Build
+      run: npm run build
+    - name: Run Test
+      run: npm test
+    - name: Run Project
+      run: npm run dev
