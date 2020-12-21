@@ -13,44 +13,39 @@ class CreateVariable implements DBCBotAction {
     return 'Variables'
   }
 
-  html () {
-    return `
-      <div>
-        <label id="variable-type">Variable Type</label>
-        <select id="variable-type" isDBCField>
-          <option value="text">Text</option>
-          <option value="number">Number</option>
-          <option value="object">Object</option>
-          <option value="list">List</option>
-          <option value="true-false">True/false</option>
-        </select>
-      </div>
-      <br>
-      <div>
-        <label id="variable-value">Variable Value</label>
-        <textarea id="variable-value" isDBCField></textarea>
-      </div>
-      <br>
-      <div>
-        <div>
-          <label id="variable-storage">Store in</label>
-          <select id="variable-storage" isDBCField>
-            <option value="temp">Variable</option>
-            <option value="global">Global Variable</option>
-          </select>
-        </div>
-        <div>
-          <label id="variable-name">Variable Name</label>
-          <input id="variable-name" type="text" isDBCField>
-        </div>
-      </div>
-    `
+  get display () {
+    return {
+      column: [
+        {
+          field: {
+            type: 'select',
+            id: 'variable-type',
+            label: 'Type',
+            options: ['Text', 'Number', 'Object', 'List', 'True/false']
+          }
+        },
+        {
+          field: {
+            type: 'textarea',
+            id: 'variable-value',
+            label: 'Value'
+          }
+        },
+        {
+          field: {
+            type: 'variable-select',
+            id: 'variable-store-in',
+            label: 'Store in'
+          }
+        }
+      ]
+    }
   }
 
   run (cache: DBCBotActionCache) {
     const variableType = cache.getField(cache.index, 'variable-type')
     let variableValue = cache.getField(cache.index, 'variable-value')
-    const variableStorage = cache.getField(cache.index, 'variable-storage')
+    const variableStorage = cache.getField(cache.index, 'variable-store-in')
     const variableName = cache.getField(cache.index, 'variable-name')
 
     switch (variableType) {

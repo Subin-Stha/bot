@@ -13,13 +13,14 @@ class SkipActions implements DBCBotAction {
     return 'Actions'
   }
 
-  html () {
-    return `
-      <div>
-        <label id="amount-to-skip">Amount to Skip</label>
-        <input id="amount-to-skip" type="number" isDBCField>
-      </div>
-    `
+  get display () {
+    return {
+      field: {
+        type: 'number',
+        id: 'amount-to-skip',
+        label: 'Amount to Skip'
+      }
+    }
   }
 
   run (cache: DBCBotActionCache) {

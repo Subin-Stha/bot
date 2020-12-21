@@ -13,7 +13,9 @@ class StopActions implements DBCBotAction {
     return 'Actions'
   }
 
-  html () {}
+  get display () {
+    return {}
+  }
 
   run () {}
 }

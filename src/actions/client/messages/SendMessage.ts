@@ -6,67 +6,32 @@ class SendMessage implements DBCBotAction {
   }
 
   get description () {
-    return 'Send messages to channels, users and bot logs.'
+    return 'Send messages to channels and users.'
   }
 
   get category () {
     return 'Client/Messages'
   }
 
-  html (isCommand: boolean) {
-    return `
-      <div>
-        <div>
-          <label id="send-to">Send to</label>
-          <select id="send-to" isDBCField>
-            ${
-              isCommand
-                ? `
-              <option value="command-channel">
-                Command Channel
-              </option>
-              <option value="command-author">
-                Command Author
-              </option>
-            `
-                : ''
-            }
-            <option value="bot-logs">Bot Logs</option>
-            <option value="variable">
-              Channel/User Variable
-            </option>
-            <option value="global-variable">
-              Channel/User Global Variable
-            </option>
-          </select>
-        </div>
-        <div id="variable-name-container" style="display: none;">
-          <label id="variable-name">Variable Name</label>
-          <input id="variable-name" type="text" isDBCField>
-        </div>
-      </div>
-      <div>
-        <label id="message">Message</label>
-        <textarea id="message" isDBCField></textarea>
-      </div>
-      <script>
-        const messageSendTo = document.getElementById('message-send-to')
-        const variableNameContainer = document.getElementById('variable-name-container')
-            
-        messageSendTo.addEventListener('select', (e) => {
-          if (
-            e.target.value === 'channel-user-variable' ||
-            e.target.value === 'channel-user-global-variable'
-          ) {
-            variableNameContainer.style.display = ''
-          } else {
-            if (variableNameContainer.style.display !== 'none') {
-              variableNameContainer.style.display = 'none'
-            }
+  get display () {
+    return {
+      column: [
+        {
+          field: {
+            type: 'message-select',
+            id: 'send-to',
+            label: 'Send To'
           }
-        })
-      </script>
-    `
+        },
+        {
+          field: {
+            type: 'textarea',
+            id: 'message',
+            label: 'Message'
+          }
+        }
+      ]
+    }
   }
 
   async run (cache: DBCBotActionCache) {

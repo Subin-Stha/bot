@@ -13,13 +13,14 @@ class JumpToAction implements DBCBotAction {
     return 'Actions'
   }
 
-  html () {
-    return `
-      <div>
-        <label id="action-to-jump">Action to Jump</label>
-        <input id="action-to-jump" type="number" isDBCField>
-      </div>
-    `
+  get display () {
+    return {
+      field: {
+        type: 'number',
+        id: 'action-to-jump',
+        label: 'Action to Jump'
+      }
+    }
   }
 
   run (cache: DBCBotActionCache) {
