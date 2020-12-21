@@ -1,11 +1,11 @@
-const path = require('path')
+const { join } = require('path')
 
 module.exports = {
   mode: 'production',
   target: 'node',
   entry: './build/index.js',
   output: {
-    path: path.join(__dirname, '/dist'),
+    path: join(__dirname, '/dist'),
     filename: 'bot.js',
     library: '@discord-bot-creator/bot',
     libraryTarget: 'umd'

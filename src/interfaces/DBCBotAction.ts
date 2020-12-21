@@ -7,6 +7,6 @@ export default interface DBCBotAction {
   description: string
   category: string
   intents?: Array<IntentsString>
-  html(isCommand?: boolean): string | void
+  display: object
   run(cache?: DBCBotActionCache): void
 }
